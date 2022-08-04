@@ -4433,6 +4433,7 @@ Index WasmBinaryBuilder::readMemoryAccess(Address& alignment, Address& offset) {
   }
 
   alignment = Bits::pow2(rawAlignment);
+  offset = getU32LEB();
   if (hasMemIdx) {
     memIdx = getU32LEB();
   }
@@ -4446,7 +4447,6 @@ Index WasmBinaryBuilder::readMemoryAccess(Address& alignment, Address& offset) {
   if (!memory) {
     throwError("Memory index out of range while reading memory alignment.");
   }
-  offset = memory->indexType == Type::i32 ? getU32LEB() : getU64LEB();
 
   return memIdx;
 }
