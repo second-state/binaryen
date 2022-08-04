@@ -2529,10 +2529,10 @@ void BinaryInstWriter::emitMemoryAccess(size_t alignment,
     alignmentBits = alignmentBits | 1 << 6;
   }
   o << U32LEB(alignmentBits);
+  o << U32LEB(offset);
   if (memoryIdx > 0) {
     o << U32LEB(memoryIdx);
   }
-  o << U32LEB(offset);
 }
 
 int32_t BinaryInstWriter::getBreakIndex(Name name) { // -1 if not found
