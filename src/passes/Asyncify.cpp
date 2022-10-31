@@ -1484,7 +1484,8 @@ struct Asyncify : public Pass {
     bool optimize = runner->options.optimizeLevel > 0;
 
     // Add a memory, as we need it.
-    MemoryUtils::newOne(module);
+    auto name = Name("asyncify_memory");
+    MemoryUtils::newOne(module, &name);
 
     // Find which things can change the state.
     auto stateChangingImports = String::trim(read_possible_response_file(

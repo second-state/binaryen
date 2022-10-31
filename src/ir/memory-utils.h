@@ -42,12 +42,17 @@ inline void ensureExists(Module* wasm) {
   }
 }
 
-inline void newOne(Module* wasm) {
+inline void newOne(Module* wasm, wasm::Name* name) {
   auto memoriesSize = wasm->memories.size();
-  auto memory = Builder::makeMemory(wasm::Name::fromInt(memoriesSize));
+  auto memory_name = wasm::Name::fromInt(memoriesSize);
+  auto memory = Builder::makeMemory(memory_name);
   memory->initial = memory->max = 1;
-  
+
   wasm->addMemory(std::move(memory));
+  if (name != nullptr) {
+    wasm->addExport(
+      Builder::makeExport(*name, memory_name, ExternalKind::Memory));
+  }
 }
 
 // Try to merge segments until they fit into web limitations.
